@@ -13,14 +13,15 @@ export const PANEL_CHECK = {
 
 export const SERVICE_API = {
   list: "/service",
-  byId: (id) => `/side-popup/${id}`,
-  updateById: (id) => `/side-popup/${id}`,
+  // byId: (id) => `/side-popup/${id}`,
+  // updateById: (id) => `/side-popup/${id}`,
 };
 
 export const NOTIFICATION_API = {
   list: "/notification",
   byId: (id) => `/notification/${id}`,
-  updateById: (id) => `/notification/${id}`,
+  updateById: (id) => `/notification/${id}?_method=PUT`,
+  updateStatus: (id) => `/notifications/${id}/status`,
 };
 
 export const CLIENT_API = {
@@ -29,10 +30,19 @@ export const CLIENT_API = {
   updateById: (id) => `/member/${id}`,
 };
 
+export const REQUEST_API = {
+  list: "/service-request",
+  byId: (id) => `/service-request/${id}`,
+  updateById: (id) => `/service-request/${id}`,
+  updateStatus: (id) => `/service-requests/${id}/status`,
+};
+
 export const ACTIVE_SERVICE_API = {
   list: "activeServices",
 }
 // old
+
+
 
 export const SIDE_POPUP_API = {
   list: "/side-popup",

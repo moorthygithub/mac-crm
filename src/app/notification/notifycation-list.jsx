@@ -10,6 +10,7 @@ import { Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import NotificationDialog from "./create-notification";
+import ToggleStatus from "@/components/toogle/status-toogle";
 
 const NotificationList = () => {
   const {
@@ -27,7 +28,7 @@ const NotificationList = () => {
   const [editId, setEditId] = useState(null);
   const IMAGE_FOR = "Notification";
   const companyBaseUrl = getImageBaseUrl(data?.image_url, IMAGE_FOR);
-  console.log(companyBaseUrl, "companyBaseUrl");
+  // console.log(companyBaseUrl, "companyBaseUrl");
   const noImageUrl = getNoImageUrl(data?.image_url);
 
   // console.log(columns);
@@ -58,19 +59,33 @@ const NotificationList = () => {
       header: "Date",
       accessorKey: "notification_date",
       enableSorting: false,
+      cell: ({ row }) => {
+        const dateStr = row.original.notification_date;
+        if (!dateStr) return "-";
+        const [year, month, day] = dateStr.split("-");
+
+        return `${day.trim()} - ${month.trim()} - ${year.trim()}`;
+      },
     },
     {
       header: "Status",
       accessorKey: "notification_status",
       cell: ({ row }) => (
         <span
-          className={`px-2 py-1 rounded-full text-xs font-medium ${
+          className={`w-fit px-3 rounded-full text-xs font-medium text-center flex justify-center items-center ${
             row.original.notification_status === "Active"
               ? "bg-green-100 text-green-800"
               : "bg-red-100 text-red-800"
           }`}
         >
-          {row.original.notification_status}
+          <ToggleStatus
+            initialStatus={row.original.notification_status}
+            apiUrl={NOTIFICATION_API.updateStatus(row.original.id)}
+            payloadKey="notification_status"
+            onSuccess={refetch}
+            method="patch"
+          />
+          {/* {row.original.notification_status} */}
         </span>
       ),
     },
