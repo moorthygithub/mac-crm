@@ -1,7 +1,4 @@
 import Login from "@/app/auth/login";
-import BannerList from "@/app/banner/service-list";
-import CreateBanner from "@/app/banner/create-banner";
-import EditBanner from "@/app/banner/edit-banner";
 import BlogList from "@/app/blog/blog-list";
 import CreateBlog from "@/app/blog/create-blog";
 import NotFound from "@/app/errors/not-found";
@@ -31,11 +28,12 @@ import EditBlog from "../app/blog/edit-blog";
 import AuthRoute from "./auth-route";
 import ProtectedRoute from "./protected-route";
 import StudenScreenShot from "@/app/student/student-screenshot";
-import ServiceList from "@/app/banner/service-list";
 import NotificationList from "@/app/notification/notifycation-list";
 import Dashboard from "@/app/home/home";
 import ClientList from "@/app/member/client-list";
-import Createclient from "@/app/member/create-client";
+import CreateClient from "@/app/member/create-client";
+import RequestList from "@/app/service-request/request-list";
+import ServiceList from "@/app/service/service-list";
 
 function AppRoutes() {
   return (
@@ -54,6 +52,15 @@ function AppRoutes() {
           <Route path="/maintenance" element={<Maintenance />} />
         </Route>
 
+        <Route
+          path="/dashboard"
+          element={
+            <Suspense fallback={<LoadingBar />}>
+              <Dashboard />
+            </Suspense>
+          }
+        />
+
         <Route path="/" element={<ProtectedRoute />}>
           <Route
             path="/service-list"
@@ -63,14 +70,8 @@ function AppRoutes() {
               </Suspense>
             }
           />
-          <Route
-            path="/notification-list"
-            element={
-              <Suspense fallback={<LoadingBar />}>
-                <NotificationList />
-              </Suspense>
-            }
-          />
+
+          {/* Clients */}
           <Route
             path="/client-list"
             element={
@@ -83,7 +84,7 @@ function AppRoutes() {
             path="/client-list/create"
             element={
               <Suspense fallback={<LoadingBar />}>
-                <Createclient />
+                <CreateClient />
               </Suspense>
             }
           />
@@ -91,7 +92,7 @@ function AppRoutes() {
             path="/client-list/create-relation/"
             element={
               <Suspense fallback={<LoadingBar />}>
-                <Createclient isRelation={true} />
+                <CreateClient isRelation={true} />
               </Suspense>
             }
           />
@@ -99,20 +100,32 @@ function AppRoutes() {
             path="/client-list/edit/:id"
             element={
               <Suspense fallback={<LoadingBar />}>
-                <Createclient isEdit={true} />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <Suspense fallback={<LoadingBar />}>
-                <Dashboard />
+                <CreateClient isEdit={true} />
               </Suspense>
             }
           />
 
-          {/* old routes */}
+          {/* Service-request */}
+          <Route
+            path="/service-request"
+            element={
+              <Suspense fallback={<LoadingBar />}>
+                <RequestList />
+              </Suspense>
+            }
+          />
+
+          {/* notification */}
+          <Route
+            path="/notification-list"
+            element={
+              <Suspense fallback={<LoadingBar />}>
+                <NotificationList />
+              </Suspense>
+            }
+          />
+
+          {/* old routes --------------------------------------------------------------------- */}
           <Route
             path="/lecture-youtube"
             element={
@@ -251,30 +264,6 @@ function AppRoutes() {
             }
           />
 
-          <Route
-            path="/banner-list"
-            element={
-              <Suspense fallback={<LoadingBar />}>
-                <BannerList />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/add-banner"
-            element={
-              <Suspense fallback={<LoadingBar />}>
-                <CreateBanner />
-              </Suspense>
-            }
-          />
-          <Route
-            path="/edit-banner/:id"
-            element={
-              <Suspense fallback={<LoadingBar />}>
-                <EditBanner />
-              </Suspense>
-            }
-          />
           {/* <Route
             path="/company-list"
             element={

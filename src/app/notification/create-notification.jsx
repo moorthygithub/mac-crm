@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { NOTIFICATION_API } from "@/constants/apiConstants";
 import { useApiMutation } from "@/hooks/useApiMutation";
 import { getImageBaseUrl } from "@/utils/imageUtils";
@@ -67,7 +66,7 @@ const NotificationDialog = ({ open, onClose, Id }) => {
     fetchData();
   }, [open, Id]);
 
-  const handleChange = (e) => { 
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((p) => ({ ...p, [name]: value }));
     setErrors((p) => ({ ...p, [name]: "" }));
@@ -98,7 +97,7 @@ const NotificationDialog = ({ open, onClose, Id }) => {
     try {
       const res = await trigger({
         url: isEdit ? NOTIFICATION_API.updateById(Id) : NOTIFICATION_API.create,
-        method: isEdit ? "put" : "post",
+        method: "post",
         data: formDataObj,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -106,15 +105,15 @@ const NotificationDialog = ({ open, onClose, Id }) => {
       });
 
       if (res?.code === 200 || res?.code === 201) {
-        toast.success(res.msg);
+        toast.success(res.message);
         queryClient.invalidateQueries(["notification-list"]);
         queryClient.invalidateQueries(["notification-dropdown"]);
         onClose();
       } else {
-        toast.error(res?.msg || "Failed");
+        toast.error(res?.message || "Failed");
       }
     } catch (error) {
-      const errors = error?.response?.data?.msg;
+      const errors = error?.response?.data?.message;
       toast.error(errors || "Something went wrong");
     }
   };
@@ -187,7 +186,7 @@ const NotificationDialog = ({ open, onClose, Id }) => {
               format="WEBP"
               maxSize={5}
               allowedExtensions={["webp"]}
-              requiredDimensions={[150, 150]}
+              // requiredDimensions={[150, 150]}
             />
           </div>
           {isEdit && (
@@ -198,7 +197,7 @@ const NotificationDialog = ({ open, onClose, Id }) => {
                 onChange={(v) =>
                   setFormData((p) => ({
                     ...p,
-                    notification_image: v,
+                    notification_status: v,
                   }))
                 }
                 options={[

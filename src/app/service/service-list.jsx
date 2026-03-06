@@ -1,25 +1,25 @@
 import ApiErrorPage from "@/components/api-error/api-error";
 import DataTable from "@/components/common/data-table";
 import LoadingBar from "@/components/loader/loading-bar";
-import { CLIENT_API } from "@/constants/apiConstants";
+import { SERVICE_API } from "@/constants/apiConstants";
 import { useGetApiMutation } from "@/hooks/useGetApiMutation";
-import { Edit, Users } from "lucide-react";
+import { Edit } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-const ClientList = () => {
+const ServiceList = () => {
   const navigate = useNavigate();
   const {
-    data: memerdata,
+    data: servicedata,
     isLoading,
     isError,
     refetch,
   } = useGetApiMutation({
-    url: CLIENT_API.list,
-    queryKey: ["member-list"],
+    url: SERVICE_API.list,
+    queryKey: ["service-list"],
   });
-  console.log(memerdata?.data.data);
+  console.log(servicedata?.data.data);
 
   const columns = [
     {
@@ -72,32 +72,26 @@ const ClientList = () => {
       accessorKey: "actions",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <abbr title="Edit Client">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                navigate(`/client-list/edit/${row.original.id}`);
-              }}
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-          </abbr>
-          <abbr title="Add Family Member">
-            <Button
-              size="icon"
-              variant="outline"
-              onClick={() => {
-                navigate(`/client-list/create-relation/`, {
-                  state: { m_id: row.original.m_id },
-                });
-              }}
-            >
-              <p className="h-4 w-4 flex justify-center">
-                <Users />
-              </p>
-            </Button>
-          </abbr>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              navigate(`/client-list/edit/${row.original.id}`);
+            }}
+          >
+            <Edit className="h-4 w-4" />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => {
+              navigate(`/client-list/create-relation/`, {
+                state: { m_id: row.original.m_id },
+              });
+            }}
+          >
+            <p className="h-4 w-4 flex justify-center">Add</p>
+          </Button>
         </div>
       ),
       enableSorting: false,
@@ -109,19 +103,19 @@ const ClientList = () => {
   return (
     <>
       <DataTable
-        data={memerdata?.data.data}
+        data={servicedata}
         columns={columns}
         pageSize={50}
-        searchPlaceholder="Search Clients..."
+        searchPlaceholder="Search Service..."
         addButton={{
           onClick: () => {
-            navigate("/client-list/create");
+            navigate("/service-list/create");
           },
-          label: "Add Client",
+          label: "Add Service",
         }}
       />
     </>
   );
 };
 
-export default ClientList;
+export default ServiceList;

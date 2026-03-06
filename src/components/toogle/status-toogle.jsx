@@ -29,7 +29,7 @@ const ToggleStatus = ({
         },
       });
 
-      if (res?.code === 200) {
+      if (res?.code === 200 || res?.code === 201) {
         setStatus(newStatus);
         onSuccess?.();
 
@@ -48,7 +48,7 @@ const ToggleStatus = ({
     <button
       onClick={handleToggle}
       disabled={loading}
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded transition-colors
+      className={`inline-flex items-center gap-1 px-2 py-2 rounded transition-colors
         ${
           status === activeValue
             ? "text-green-800 hover:bg-green-100"
